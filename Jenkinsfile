@@ -11,9 +11,9 @@ pipeline {
             steps {
                 script{
                 echo 'Testing..'
-                dockerImage = docker.build image + ":$BUILD_NUMBER"
+                dockerImage = docker.build image 
                   
-                sh "docker run -i ${image}:${BUILD_NUMBER}  python3 tests/test.py"
+                sh "docker run -i ${image}  python3 tests/test.py"
 
                }
 
