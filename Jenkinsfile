@@ -11,8 +11,7 @@ pipeline {
             steps {
                 script{
                 echo 'Testing..'
-                dockerImage = docker.build image + ":$BUILD_NUMBER"
-                sh "echo BUILD_NO=${$BUILD_NUMBER} >> .env"
+                dockerImage = docker.build image + ":$BUILD_NUMBER-$GIT_BRANCH"
                   
                 sh "docker run -i ${image}:${BUILD_NUMBER}-${GIT_BRANCH}  python3 tests/test.py"
 
@@ -37,7 +36,7 @@ pipeline {
             steps {  
 
                 echo 'Deploying on staging'
-                sh "echo BUILD_NO=${$BUILD_NUMBER}-${GIT_BRANCH} >> .env"
+                sh "echo BUILD_NO=${BUILD_NUMBER}-${GIT_BRANCH} >> .env"
                 sh "docker stack deploy --compose-file tradebyte-development.yml  dev"
             }
         }
@@ -48,7 +47,7 @@ pipeline {
             steps {  
 
                 echo 'Deploying on production....'
-               sh "echo BUILD_NO=${$BUILD_NUMBER}-${GIT_BRANCH} >> .env_prod"
+               sh "echo BUILD_NO=${BUILD_NUMBER}-${GIT_BRANCH} >> .env_prod"
                sh "docker stack deploy --compose-file tradebyte-production.yml  prod"
             }
         }
