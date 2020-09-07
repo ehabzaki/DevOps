@@ -1,7 +1,7 @@
 version: '3'
 services:
     web:
-        image: ehab123/tradebyte:latest
+        image: ehab123/tradebyte
         deploy:
           replicas: 2
           restart_policy:
