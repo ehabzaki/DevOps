@@ -1,7 +1,7 @@
 version: '3'
 services:
     web:
-        image: "ehab123/tradebyte:${BUILD_NO}"
+        image: ehab123/tradebyte:latest
         deploy:
           replicas: 2
           restart_policy:
@@ -12,8 +12,6 @@ services:
             - "8000:8000"
         volumes:
             - .:/code
-        environment:
-            - BUILD_NO=${BUILD_NO}
         depends_on:
             - redis
         env_file:
