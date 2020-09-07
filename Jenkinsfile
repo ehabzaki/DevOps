@@ -42,6 +42,8 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
+		sh "docker stack deploy --compose-file tradebyte-development.yml  dev"
+               sh "docker stack deploy --compose-file tradebyte-production.yml  prod"
             }
         }
     }
