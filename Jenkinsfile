@@ -1,5 +1,10 @@
 pipeline {
+  environment {
+    image = "ehab123/tradebyte"
+
+  }
     agent any
+    
 
     stages {
         stage('Build') {
@@ -10,13 +15,30 @@ pipeline {
 
             }
         }
+
         stage('Test') {
             steps {
+                script{
                 echo 'Testing..'
-                sh "docker exec -i devopschallengemaster2_web_1  python3 tests/test.py"
+                dockerImage = docker.build image + ":$BUILD_NUMBER"
+                sh "docker run -i ${image}:${BUILD_NUMBER}  python3 tests/test.py"
                 sh "docker-compose down -v"
+               }
+                
             }
         }
+        stage('push image') {
+            steps{
+                script {
+                    //dockerImage = docker.build image + ":$BUILD_NUMBER"
+
+                    docker.withRegistry( '', "registryCredential" ) {
+                    dockerImage.push()
+                }
+            }
+        } 
+    }
+
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
