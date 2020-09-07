@@ -2,6 +2,10 @@ version: '3'
 services:
     web:
         image: ehab123/tradebyte:latest
+        deploy:
+          replicas: 2
+          restart_policy:
+            condition: on-failure
         ports:
             - "5000:5000"
         volumes:
@@ -12,3 +16,7 @@ services:
             - .env_prod
     redis:
         image: redis
+        deploy:
+          replicas: 2
+          restart_policy:
+            condition: on-failure

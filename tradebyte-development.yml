@@ -2,6 +2,12 @@ version: '3'
 services:
     web:
         image: ehab123/tradebyte
+        deploy:
+          replicas: 2
+          restart_policy:
+            condition: on-failure
+ 
+        
         ports:
             - "8000:8000"
         volumes:
@@ -12,3 +18,8 @@ services:
             - .env
     redis:
         image: redis
+        deploy:
+          replicas: 2
+          restart_policy:
+            condition: on-failure
+
